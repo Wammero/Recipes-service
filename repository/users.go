@@ -6,7 +6,7 @@ import (
 )
 
 func (repo *PGRepo) GetUsers() ([]models.User, error) {
-	rows, err := repo.pool.Query(context.Background(), "SELECT id FROM users")
+	rows, err := repo.pool.Query(context.Background(), "SELECT id, name, reiting FROM users")
 	if err != nil {
 		return nil, err
 	}
@@ -17,6 +17,8 @@ func (repo *PGRepo) GetUsers() ([]models.User, error) {
 		var user models.User
 		err = rows.Scan(
 			&user.Id,
+			&user.Name,
+			&user.Reiting,
 		)
 
 		if err != nil {

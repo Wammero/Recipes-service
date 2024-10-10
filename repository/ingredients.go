@@ -6,7 +6,7 @@ import (
 )
 
 func (repo *PGRepo) GetIngredients() ([]models.Ingredient, error) {
-	rows, err := repo.pool.Query(context.Background(), "SELECT id FROM recipe_ingredients")
+	rows, err := repo.pool.Query(context.Background(), "SELECT id, name FROM recipe_ingredients")
 
 	if err != nil {
 		return nil, err
@@ -19,6 +19,7 @@ func (repo *PGRepo) GetIngredients() ([]models.Ingredient, error) {
 
 		err := rows.Scan(
 			&ingredient.Id,
+			&ingredient.Name,
 		)
 
 		if err != nil {
