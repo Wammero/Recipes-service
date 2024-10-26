@@ -22,6 +22,7 @@ func (api *api) Handle() {
 	api.r.HandleFunc("/get-users", api.GetUsers).Methods(http.MethodGet)
 	api.r.HandleFunc("/get-ingredients", api.GetIngredients).Methods(http.MethodGet)
 	api.r.HandleFunc("/delete-recipe", api.GetIngredients).Methods(http.MethodDelete)
+	api.r.HandleFunc("/change-favourite", api.ChangeFavoutite).Methods(http.MethodPost)
 }
 
 func (api *api) ListenAndServe(addr string) error {

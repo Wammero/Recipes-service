@@ -3,6 +3,7 @@ package repository
 import (
 	"context"
 	"recipe/models"
+	"strconv"
 )
 
 func (repo *PGRepo) GetUsers() ([]models.User, error) {
@@ -29,4 +30,21 @@ func (repo *PGRepo) GetUsers() ([]models.User, error) {
 	}
 
 	return data, err
+}
+
+func (repo *PGRepo) ChangeFavourite(userIDStr string, recipeID int) error {
+	userID, err := strconv.Atoi(userIDStr)
+	if err != nil {
+		return err
+	}
+
+	_, err = repo.pool.Exec(context.Background(),
+		"INSERT INTO favourites(user_id, recipe_id) VALUES($1, $2) ON CONFLICT (user_id, recipe_id) DO DELETE",
+		userID, recipeID)
+
+	if err != nil {
+		return err
+	}
+
+	return nil
 }

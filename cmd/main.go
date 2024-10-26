@@ -13,11 +13,13 @@ import (
 )
 
 func main() {
+	// Подключение к базе данных
 	db, err := repository.New("postgresql://root:1234@0.0.0.0:5441/bd_1?sslmode=disable")
 	if err != nil {
 		log.Fatal("Failed to connect to the database:", err)
 	}
 
+	// Выполнение миграций
 	migration1, err := migrate.New(
 		"file://C:/Users/nazhmud1/Desktop/projects/Recipes-service/migrations",
 		"postgresql://root:1234@0.0.0.0:5441/bd_1?sslmode=disable",
@@ -37,5 +39,5 @@ func main() {
 	api := api.New(mux.NewRouter(), db)
 	api.Handle()
 
-	log.Fatal(api.ListenAndServe("localhost:8080"))
+	log.Fatal(api.ListenAndServe("localhost:8081"))
 }

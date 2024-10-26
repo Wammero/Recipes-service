@@ -16,6 +16,13 @@ CREATE TABLE IF NOT EXISTS recipes (
     author_id INT REFERENCES users(id) 
 );
 
+CREATE TABLE IF NOT EXISTS favourites (
+    id SERIAL PRIMARY KEY,
+    user_id INT REFERENCES users(id) ,
+    recipe_id INT REFERENCES recipes(id) ,
+    UNIQUE(user_id, recipe_id)
+);
+
 CREATE TABLE IF NOT EXISTS recipe_ingredient_links (
     recipe_id INT REFERENCES recipes(id),
     ingredient_id INT REFERENCES recipe_ingredients(id),
