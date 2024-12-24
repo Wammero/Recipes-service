@@ -1,5 +1,5 @@
--- Создание таблицы пользователей
-CREATE TABLE users (
+-- Создание таблицы пользователей, если она не существует
+CREATE TABLE IF NOT EXISTS users (
     id SERIAL PRIMARY KEY,
     username VARCHAR(255) UNIQUE NOT NULL,
     email VARCHAR(255) UNIQUE NOT NULL,
@@ -9,8 +9,8 @@ CREATE TABLE users (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Создание таблицы рецептов
-CREATE TABLE recipes (
+-- Создание таблицы рецептов, если она не существует
+CREATE TABLE IF NOT EXISTS recipes (
     id SERIAL PRIMARY KEY,
     user_id INT NOT NULL REFERENCES users(id),
     title VARCHAR(255) NOT NULL,
@@ -23,34 +23,35 @@ CREATE TABLE recipes (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Создание таблицы категорий рецептов
-CREATE TABLE categories (
+-- Создание таблицы категорий рецептов, если она не существует
+CREATE TABLE IF NOT EXISTS categories (
     id SERIAL PRIMARY KEY,
     name VARCHAR(255) UNIQUE NOT NULL
 );
 
--- Создание таблицы связи рецептов и категорий
-CREATE TABLE recipe_categories (
+-- Создание таблицы связи рецептов и категорий, если она не существует
+CREATE TABLE IF NOT EXISTS recipe_categories (
     recipe_id INT NOT NULL REFERENCES recipes(id),
     category_id INT NOT NULL REFERENCES categories(id),
-    PRIMARY KEY (recipe_id, category_id)
+    UNIQUE (recipe_id, category_id)
 );
 
--- Создание таблицы избранных рецептов
-CREATE TABLE favorites (
+-- Создание таблицы избранных рецептов, если она не существует
+CREATE TABLE IF NOT EXISTS favorites (
     user_id INT NOT NULL REFERENCES users(id),
     recipe_id INT NOT NULL REFERENCES recipes(id),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    PRIMARY KEY (user_id, recipe_id)
+    UNIQUE (user_id, recipe_id)
 );
 
--- Создание таблицы отзывов и оценок
-CREATE TABLE reviews (
+-- Создание таблицы отзывов и оценок, если она не существует
+CREATE TABLE IF NOT EXISTS reviews (
     id SERIAL PRIMARY KEY,
     user_id INT NOT NULL REFERENCES users(id),
     recipe_id INT NOT NULL REFERENCES recipes(id),
     rating INT CHECK (rating BETWEEN 1 AND 5),
     comment TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE(user_id, recipe_id)
 );

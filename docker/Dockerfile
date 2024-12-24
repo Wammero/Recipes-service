@@ -1,4 +1,4 @@
-FROM golang:1.21-alpine AS builder
+FROM golang:1.22-alpine AS builder
 
 WORKDIR /app
 
@@ -14,11 +14,11 @@ FROM alpine:latest
 
 RUN apk --no-cache add ca-certificates
 
-WORKDIR /root/
+WORKDIR /app
 
 COPY --from=builder /app/server .
-
-COPY config /app/config
+COPY --from=builder /app/config ./config
+COPY --from=builder /app/migrations ./migrations
 
 EXPOSE 50051
 
