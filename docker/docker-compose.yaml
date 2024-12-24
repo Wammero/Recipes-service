@@ -18,8 +18,6 @@ services:
       POSTGRES_DB: mydb
     networks:
       - app-network
-    volumes:
-      - app-init-volume:/docker-entrypoint-initdb.d
 
   db:
     image: postgres:15-alpine
@@ -32,7 +30,7 @@ services:
       POSTGRES_DB: mydb
     volumes:
       - postgres-data:/var/lib/postgresql/data
-      - app-init-volume:/docker-entrypoint-initdb.d
+      - ./init:/docker-entrypoint-initdb.d
     networks:
       - app-network
 
@@ -42,4 +40,3 @@ networks:
 
 volumes:
   postgres-data:
-  app-init-volume:

@@ -1,0 +1,10 @@
+server:
+  port: 50051
+
+database:
+  host: db
+  port: 5432
+  user: myuser
+  password: mypassword
+  dbname: mydb
+  sslmode: disable

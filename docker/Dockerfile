@@ -18,7 +18,7 @@ WORKDIR /root/
 
 COPY --from=builder /app/server .
 
-COPY docker/init/init.sql /docker-entrypoint-initdb.d/
+COPY config /app/config
 
 EXPOSE 50051
 
