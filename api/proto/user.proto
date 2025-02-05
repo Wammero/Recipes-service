@@ -1,0 +1,43 @@
+syntax = "proto3";
+
+package user;
+
+option go_package = "github.com/example/recipes_service/userpb";
+
+import "google/api/annotations.proto";
+
+message RegisterRequest {
+  string username = 1;
+  string email = 2;
+  string password = 3;
+}
+
+message RegisterResponse {
+  string message = 1;
+}
+
+message LoginRequest {
+  string email = 1;
+  string password = 2;
+}
+
+message LoginResponse {
+  string token = 1;
+  string message = 2;
+}
+
+service UserService {
+  rpc RegisterUser (RegisterRequest) returns (RegisterResponse) {
+    option (google.api.http) = {
+      post: "/api/register"
+      body: "*"
+    };
+  }
+
+  rpc LoginUser (LoginRequest) returns (LoginResponse) {
+    option (google.api.http) = {
+      post: "/api/login"
+      body: "*"
+    };
+  }
+}
