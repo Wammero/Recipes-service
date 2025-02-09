@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package user;
 
-option go_package = "Recipes_service/api/proto";
+option go_package = "Recipes_service/api/generated";
 
 import "google/api/annotations.proto";
 
